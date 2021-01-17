@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="row content-section">
+        <div class="col-sm-12">
+            <div class="media">
+                <img src="{{user.profile.image.url}}" alt="{{user.username}}" class="account-img">
+                <div class="media-body">
+                    <h5 class="account-heading">{{user.username}}</h5>
+                    <p class="text-secondary">{{user.email}}</p>
+                    <p>{{user.profile.bio}}</p>
+                </div>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="mb-4">Profile Info</legend>
+                    {{user_form | crispy}}
+                    {{profile_form | crispy}}
+                </fieldset>
+                <div class="form-group">
+                    <button type= "submit" class="btn btn-outline-info">Update</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+    <div class="row mt-1" >
+        
+            {% for post in posts %}
+            <div class="col-sm-3">
+                <div class="card mt-1">
+                                        
+                    <img class="card-img-top mt-1" src="{{post.image.url}}" alt="Card image cap" style="height: 20vh;">
+                    <div class="card-body">
+                        
+                        <div class="react">
+                            <img data-toggle="collapse" data-target="#commentSec{{post.id}}" src="https://img.icons8.com/metro/26/000000/comments.png"/></a>                    
+
+                        </div>
+                        
+                        <p class="card-text">{{post.desc}}</p>
+                        <div class="react">
+                            <p>{{post.likes}} Likes</p>
+                            <p>{{post.comment_set.all | length}} Comments</p>
+                        </div>                     
+                    </div>
+                    <div class="card-footer collapse" id='commentSec{{post.id}}'>
+                            
+                        {% for comment in post.comment_set.all %}
+                            <small>{{comment.content}}</small><br>
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+{% endblock %}

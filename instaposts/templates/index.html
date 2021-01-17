@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-9 mt-1">
+            {% for post in posts %}
+                <div class="card mt-1">
+                    <div class="react mt-1">
+                        <img src="{{post.user.profile.image.url}}" alt="" class="ml-1" style="width: 60px; height:60px; border-radius: 50%; border:2px red solid">
+                        <a href="{% url 'user-profile' post.user.id %}"><p style="font-weight: bold;">{{post.user}}</p></a>
+                    </div>
+                    
+                    <img class="card-img-top mt-1" src="{{post.image.url}}" alt="Card image cap">
+                    <div class="card-body">
+                        
+                        <div class="react">
+                            <a href="{% url 'like-post' post.id %}"><img src="https://img.icons8.com/ios-glyphs/30/000000/hearts.png"/></a>
+                            <img data-toggle="collapse" data-target="#commentSec{{post.id}}" src="https://img.icons8.com/metro/26/000000/comments.png"/></a>                      
+
+                        </div>
+                        
+                        <p class="card-text">{{post.desc | truncatewords:20}} <a href="{% url 'post-detail' post.id %}">read more</a></p>
+                        <div class="react">
+                            <p><span style="font-weight: bold;">{{post.likes}}</span> Likes</p>
+                            <p><span style="font-weight: bold;">{{post.comment_set.all | length}}</span> Comments</p>
+                        </div>
+                        
+                        <div class="card-footer collapse" id='commentSec{{post.id}}'>
+                            
+                            {% for comment in post.comment_set.all %}
+                                <small>{{comment.content}}</small><br>
+                            {% endfor %}
+                            <form class="form-inline" action="{%url 'addcomment' post.id%}" method="POST">   
+                                {% csrf_token %}                         
+                                <div class="form-group">
+                                <input type="text" class="form-control col" id="comment" placeholder="Comment" name="comment">
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary ml-2">Post</button>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="col-sm-3 mt-2">
+            <div class="row ">
+                <div class="col react">
+                    <div class="pr-img">
+                        <img src="{{user.profile.image.url}}" alt="" style="border-radius: 50%; width:60px;height:60px;">
+                    </div>
+                    <div class="pr-info">
+                        <small>{{user}}</small>
+                        <small>{{user.email}}</small><br>
+                        <small>{{user.profile.bio}}</small>                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-1">
+                <div class="col-sm-6 react">
+                    <button class="btn btn-primary">{{user.followers.all | length}} Followers</button>
+                    <button class="btn btn-info ml-1"> Following {{user.following.all | length}}</button>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+{% endblock %}
