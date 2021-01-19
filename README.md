@@ -39,6 +39,7 @@ python3 manage.py migrate
 
 Author
 Farzana Isack
+
 farzanaisack@gmail.com
 
 
