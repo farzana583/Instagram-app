@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Post, Comment
-from .forms import CommentForm
+from .forms import CommentForm,NewPostForm
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -9,8 +9,22 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from users.models import Follow
 from django.contrib import messages
+from users.models import Profile
 # Create your views here.
 
+
+@login_required(login_url = '/accounts/login/')
+def newPost(request):
+    if request.method=='POST':
+        form = NewPostForm(request.POST,request.FILES)
+        if form.is_valid():
+            post=form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect('welcome')
+    else:
+        form = NewPostForm()
+    return render(request,'instaposts/new_post.html',{'form':form})
 
 @login_required
 def home(request):
@@ -30,6 +44,7 @@ class PostCreateView(CreateView):
     fields = ['desc', 'image']
 
     def form_valid(self, form):
+        form.save(commit=False)
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -39,12 +54,12 @@ class PostUpdateView(UserPassesTestMixin, UpdateView):
     fields = ['desc', 'image']
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.user:
+        if self.request.user == post.author:
             return True
         return False
 
@@ -91,9 +106,9 @@ def add_like(request, post_id):
 def search_user(request):
     if 'user' in  request.GET and request.GET['user']:
         search_psn = request.GET.get("user")
-        found_user = User.objects.filter(username=search_psn).first()
+        found_user = Profile.objects.filter(user=search_psn).first()
         print(found_user.id)
-        posts = Post.objects.filter(user=found_user.id)
+        posts = Post.objects.filter(author=found_user.id)
 
         context = {
             'user': found_user,
@@ -104,13 +119,13 @@ def search_user(request):
     return redirect('welcome')
 
 def user_follow(request, user_id):
-    user = User.objects.filter(pk=user_id).first()
+    user = Profile.objects.filter(pk=user_id).first()
     current_user = request.user
     followers = user.following.all()
     followings = user.followers.all()
-    print(followers)
-    print(followings)
-    posts = Post.objects.filter(user=user.id)
+    # print(followers)
+    # print(followings)
+    posts = Post.objects.filter(author=user.id)
     context = {
             'current_user': current_user,
             'user': user,
@@ -120,7 +135,7 @@ def user_follow(request, user_id):
     return render(request, 'instaposts/spec_user.html', context)
 
 def follow_another(request, user_id):
-    user = User.objects.filter(pk=user_id).first()    
+    user = Profile.objects.filter(pk=user_id).first()    
     follow = Follow(user_id=request.user.id, following_user_id=user.id)
 
     try:
