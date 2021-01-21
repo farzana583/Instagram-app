@@ -28,13 +28,19 @@ To run the application:-
 5. Install all the django packages in 'requirements.txt' using pip install <package-name>.
 
 6. Run:-
-
+```
  python3 manage.py makemigrations images- Creates a migrations folder and database with all the tables
+  
+```
 
+```
 python3 manage.py migrate
 
-7. Open the project on your Text Editor/IDE
-...
+```
+
+```
+7.Open the project on your Text Editor/ID
+```
 
 ```
 8.Run python3 manage.py runserver on your terminal
