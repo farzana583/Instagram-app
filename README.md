@@ -17,21 +17,21 @@ Instaclone is a clone of Instagram, it allows users to create and update profile
 
 To run the application:-
 
- 1. Clone the repository to a folder in your machine using https://github.com/farzana583/Instagram-app
+ 1. Clone the repository to a folder in your machine using ```https://github.com/farzana583/Instagram-app```
 
-2. Cd to that folder.
+2.Cd to that folder.
 
-3. Create a virtual environment using python3 -m venv virtual
+3.Create a virtual environment using ```python3 -m venv virtual```
 
-4. Activate the virtual environment using source virtual/bin/activate
+4.Activate the virtual environment using ```source virtual/bin/activate```
 
-5. Install all the django packages in 'requirements.txt' using pip install <package-name>.
+5.Install all the django packages in ```'requirements.txt' using pip install <package-name>.```
 
-6. Run:-
-```
- python3 manage.py makemigrations images- Creates a migrations folder and database with all the tables
+# 6. Run:-
+
+ ```python3 manage.py``` makemigrations images- Creates a migrations folder and database with all the tables
   
-```
+
 
 ```
 python3 manage.py migrate
