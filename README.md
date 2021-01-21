@@ -1,19 +1,19 @@
-InstaClone
+# InstaClone
 
 Instaclone is a clone of Instagram, it allows users to create and update profiles, users can post new posts, comment and like posts.
 
-Prerequisites
+# Prerequisites
 
 
 * Have Git installed.
 * Have Python and Pip Installed
 * Have a text editor or an IDE installed e.g VS Code, Atom
 
-Technologies Used
+# Technologies Used
 * Python, Django, JavaScript, CSS and HTML
 * VS Code.
 
-Setup Installation
+# Setup Installation
 
 To run the application:-
 
@@ -35,15 +35,19 @@ python3 manage.py migrate
 
 7. Open the project on your Text Editor/IDE
 
+...
+
 8. Run python3 manage.py runserver on your terminal
 
-Author
+...
+
+# Author
 Farzana Isack
 
 farzanaisack@gmail.com
 
 
-MIT License
+# MIT License
 
 Copyright (c) [2021] [Farzana Isack]
 Permission is hereby granted, free of charge, to any person obtaining a copy
