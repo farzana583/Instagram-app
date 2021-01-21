@@ -42,10 +42,9 @@ python3 manage.py migrate
 7.Open the project on your Text Editor/ID
 ```
 
-```
-8.Run python3 manage.py runserver on your terminal
+8.```Run python3 manage.py runserver``` on your terminal
 
-```
+
 # Author
 Farzana Isack
 
